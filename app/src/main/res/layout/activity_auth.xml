@@ -2,21 +2,85 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/images">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/colorDarkPopup"
+        android:layout_margin="10dp"
+        android:padding="10dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Login-Form"
+            android:textSize="20sp"
+            android:textColor="@color/colorWhite"
+            android:textAlignment="center"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="user-name"
+            android:textColorHint="@color/colorGrey"
+            android:textColor="@color/colorTealL1"
             android:id="@+id/userEdt" />
+        <TextView
+            android:id="@+id/loginResTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="15sp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/colorRedError" />
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/custom_btn"
+            android:textColor="@color/colorWhite"
             android:text="authentication"
             android:id="@+id/loginBtn"/>
     </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorDarkPopup"
+        android:layout_margin="10dp"
+        android:padding="10dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Register-Form"
+            android:textSize="20sp"
+            android:textColor="@color/colorWhite"
+            android:textAlignment="center"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="user-name"
+            android:textColorHint="@color/colorGrey"
+            android:textColor="@color/colorTealL1"
+            android:id="@+id/userRegEdt" />
+        <TextView
+            android:id="@+id/regResTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:textAlignment="center"
+            android:textSize="15sp"
+            android:textColor="@color/colorRedError" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/custom_btn"
+            android:text="register"
+            android:id="@+id/regBtn"/>
+    </LinearLayout>
+
+
 
     
 </LinearLayout>

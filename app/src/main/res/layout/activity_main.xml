@@ -2,19 +2,49 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="10dp"
+    android:background="@drawable/images"
     android:orientation="vertical"
     android:weightSum="10">
 
     <LinearLayout
-        android:layout_weight="2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:weightSum="5">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorTealL1"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:id="@+id/usernameLb"
+            android:text="user-name"
+            android:layout_weight="4"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/logoutBtn"
+
+            android:text="logout"
+
+            android:layout_weight="1"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:orientation="horizontal"
         android:weightSum="9">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/custom_btn"
+            android:textColor="@color/colorWhite"
             android:layout_weight="3"
             android:text="record"
             android:id="@+id/record_btn"/>
@@ -22,6 +52,8 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/custom_btn"
+            android:textColor="@color/colorWhite"
             android:layout_weight="3"
             android:text="done"
             android:id="@+id/done_btn"/>
@@ -29,6 +61,8 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/custom_btn"
+            android:textColor="@color/colorWhite"
             android:layout_weight="3"
             android:text="send"
             android:id="@+id/send_btn"/>
@@ -37,7 +71,8 @@
     <LinearLayout
         android:layout_weight="8"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -59,12 +94,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
                     android:id="@+id/msgEdtBtn"/>
+
                 <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/sendMsgBtn"
+                    android:layout_width="10px"
+                    android:layout_height="125px"
                     android:layout_weight="1"
-                    android:text="send"
-                    android:id="@+id/sendMsgBtn"/>
+                    android:background="@drawable/sendblue"
+                     />
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>

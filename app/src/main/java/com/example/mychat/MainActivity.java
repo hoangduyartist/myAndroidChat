@@ -1,5 +1,6 @@
 package com.example.mychat;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Environment;
@@ -11,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 //socket.io
@@ -36,10 +38,15 @@ public class MainActivity extends AppCompatActivity {
     private Socket mSocket;
     {
         try {
-            mSocket = IO.socket("http://192.168.1.143:3000");
+//            mSocket = IO.socket("http://192.168.1.143:3000");
+            mSocket = IO.socket("http://172.16.103.225:3000");
 //            mSocket = IO.socket("http://localhost:3000");
         } catch (URISyntaxException e) {}
     }
+
+    private Intent mIntent;
+    private TextView mUsernameLb;
+
     private Button recordBtn, doneBtn, sendBtn;
     private MediaRecorder myRecorder;
     private MediaPlayer myPlayer;
@@ -51,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
     private ListView msgView;
     private ArrayAdapter mAdapter;
 
+    private Button logoutBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +70,11 @@ public class MainActivity extends AppCompatActivity {
         mSocket.on("Server-send-record", onNewRecord);
         mSocket.on("Server-send-message", onNewMessage);
 //        connect socket.io end get data
+
+//        get username
+        mIntent = getIntent();
+        mUsernameLb = (TextView)findViewById(R.id.usernameLb);
+        mUsernameLb.setText(mIntent.getStringExtra("username"));
 
         recordBtn = (Button)findViewById(R.id.record_btn);
         recordBtn.setOnClickListener(new View.OnClickListener() {
@@ -99,15 +113,24 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 mSocket.emit("Client-send-message",msg);
+                msgEdt.setText("");
             }
         });
         mMsgList = new ArrayList<>();
         mMsgList.add("msg 1");
 
         mAdapter = new ArrayAdapter(MainActivity.this,android.R.layout.simple_list_item_1,mMsgList);
-
         msgView = (ListView)findViewById(R.id.msgView);
         msgView.setAdapter(mAdapter);
+
+        logoutBtn = (Button)findViewById(R.id.logoutBtn);
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+//                mSocket.disconnect();
+            }
+        });
 
     }
     @Override
@@ -133,7 +156,6 @@ public class MainActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         return;
                     }
-
                 }
             });
         }
