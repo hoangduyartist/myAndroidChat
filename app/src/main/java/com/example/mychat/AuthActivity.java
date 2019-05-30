@@ -1,6 +1,7 @@
 package com.example.mychat;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -22,7 +23,8 @@ public class AuthActivity extends AppCompatActivity {
     private Socket mSocket;
     {
         try {
-            mSocket = IO.socket("http://172.16.103.225:3000");
+            mSocket = IO.socket("http://duynh-my-chat.herokuapp.com/");
+//            mSocket = IO.socket("http://192.168.1.144:3000");
         } catch (URISyntaxException e) {
         }
     }
@@ -126,8 +128,10 @@ public class AuthActivity extends AppCompatActivity {
                         return;
                     }
                     if(stt.equals("true")){
+                        regResTxt.setTextColor(Color.parseColor("#00FF33"));
                         regResTxt.setText(regRes);
                     }else {
+                        regResTxt.setTextColor(Color.parseColor("#D81B21"));
                         regResTxt.setText(regRes);
                     }
 

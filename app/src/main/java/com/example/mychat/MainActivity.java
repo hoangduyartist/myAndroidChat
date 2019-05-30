@@ -7,7 +7,6 @@ import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     {
         try {
 //            mSocket = IO.socket("http://192.168.1.143:3000");
-            mSocket = IO.socket("http://172.16.103.225:3000");
+            mSocket = IO.socket("http://duynh-my-chat.herokuapp.com/");
 //            mSocket = IO.socket("http://localhost:3000");
         } catch (URISyntaxException e) {}
     }
@@ -117,7 +116,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         mMsgList = new ArrayList<>();
-        mMsgList.add("msg 1");
 
         mAdapter = new ArrayAdapter(MainActivity.this,android.R.layout.simple_list_item_1,mMsgList);
         msgView = (ListView)findViewById(R.id.msgView);
