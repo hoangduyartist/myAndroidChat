@@ -14,20 +14,16 @@ import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 
 public class AuthActivity extends AppCompatActivity {
+
     private Socket mSocket;
-    {
-        try {
-            mSocket = IO.socket("http://duynh-my-chat.herokuapp.com/");
-//            mSocket = IO.socket("http://192.168.1.144:3000");
-        } catch (URISyntaxException e) {
-        }
-    }
 
     private EditText userEdt;
     private Button loginBtn;
@@ -39,16 +35,28 @@ public class AuthActivity extends AppCompatActivity {
 
     private Intent mIntent;
 
+    public Socket getmSocket(){
+//        if (mSocket.connected()){
+//            return mSocket;
+//        }
+//        mSocket.connected();
+        return mSocket;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
 
-        Toast.makeText(getApplicationContext(), "Create AuthActivity.", Toast.LENGTH_SHORT).show();
-
-        mSocket.connect();
+        try {
+            mSocket = IO.socket("http://duynh-my-chat.herokuapp.com/");
+//            mSocket = IO.socket("http://192.168.1.145:3000");
+            mSocket.connect();
+        } catch (URISyntaxException e) {
+            Toast.makeText(getApplicationContext(), "Connect to socket-server failed.", Toast.LENGTH_SHORT).show();
+        }
         mSocket.on("user-login-res", onNewLoginRes);
         mSocket.on("user-register-res", onNewRegRes);
+//        mSocket.on("Server-send-allMessage", onFetchAllMessage);
 
         userEdt = (EditText) findViewById(R.id.userEdt);
         loginResTxt = (TextView)findViewById(R.id.loginResTxt);
@@ -133,6 +141,32 @@ public class AuthActivity extends AppCompatActivity {
                     }else {
                         regResTxt.setTextColor(Color.parseColor("#D81B21"));
                         regResTxt.setText(regRes);
+                    }
+
+                }
+            });
+        }
+    };
+    private Emitter.Listener onFetchAllMessage = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    JSONObject data = (JSONObject) args[0];
+
+                    JSONArray content;
+                    ArrayList<String> testArr = new ArrayList<String>();
+                    try {
+                        String c1 = data.getJSONArray("content").get(0).toString();
+                        content = (JSONArray) data.getJSONArray("content");
+                        for(int i=0; i<content.length(); i++){
+                            testArr.add(content.get(i).toString());
+                            Toast.makeText(getApplicationContext(), "authAct "+content.get(i).toString(), Toast.LENGTH_SHORT).show();
+                        }
+
+                    } catch (JSONException e) {
+                        return;
                     }
 
                 }

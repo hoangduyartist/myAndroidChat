@@ -6,6 +6,7 @@ import android.media.MediaRecorder;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -19,6 +20,7 @@ import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 //socket.io
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,12 +36,12 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    private AuthActivity mAuthActivity;
     private Socket mSocket;
     {
         try {
-//            mSocket = IO.socket("http://192.168.1.143:3000");
+//            mSocket = IO.socket("http://192.168.1.145:3000");
             mSocket = IO.socket("http://duynh-my-chat.herokuapp.com/");
-//            mSocket = IO.socket("http://localhost:3000");
         } catch (URISyntaxException e) {}
     }
 
@@ -65,9 +67,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 //        connect socket.io end get data
-        mSocket.connect();
+//        mAuthActivity = AuthActivity.getInstanceAuthAct();
+//        mSocket = mAuthActivity.getmSocket();
+//        mSocket.connect();
+        mSocket.emit("load-all-message", "all");
+
         mSocket.on("Server-send-record", onNewRecord);
         mSocket.on("Server-send-message", onNewMessage);
+        mSocket.on("Server-send-allMessage", onFetchAllMessage);
 //        connect socket.io end get data
 
 //        get username
@@ -175,6 +182,34 @@ public class MainActivity extends AppCompatActivity {
                     mMsgList.add(message);
                     mAdapter.notifyDataSetChanged();
 
+                }
+            });
+        }
+    };
+    private Emitter.Listener onFetchAllMessage = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    JSONObject data = (JSONObject) args[0];
+                    String message;
+                    JSONArray jsonarray;
+
+                    try {
+                        jsonarray = data.getJSONArray("content");
+                        message = data.getString("msg");
+                        Toast.makeText(getApplicationContext(),message, Toast.LENGTH_SHORT).show();
+                        for(int i=0; i<jsonarray.length(); i++){
+                            mMsgList.add(jsonarray.get(i).toString());
+//                            Toast.makeText(getApplicationContext(),"MainAct "+ jsonarray.get(i).toString(), Toast.LENGTH_SHORT).show();
+                        }
+
+                    } catch (JSONException e) {
+                        return;
+                    }
+
+                    mAdapter.notifyDataSetChanged();
                 }
             });
         }
